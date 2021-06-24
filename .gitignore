@@ -1,0 +1,19 @@
+*.original
+*.tmp
+*.bkp
+*.retry
+*.*~
+
+
+# Try tyo avoid any plain-text passwords 
+*pwd*
+*pass*
+*password*
+*.txt
+
+# Exclude all binaries
+*.bin
+*.jar
+*.tar
+*.zip
+*.tgz
