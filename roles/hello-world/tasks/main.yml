@@ -2,4 +2,5 @@
 - name: "Hello Pi"
   become: yes
   debug:
-    msg: "Hello world, this is {{ ansible_hostname }} "
+    msg: "Message in Variable:  {{ hello }} "
+
