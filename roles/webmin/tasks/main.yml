@@ -1,0 +1,23 @@
+# See https://webmin.com/deb.html
+---
+- name: "Download and add GPG key with which the repository is signed"
+  apt_key:
+    url: https://download.webmin.com/jcameron-key.asc
+    state: present
+
+- name: "Add apt-Repository for Webmin"
+  become: "yes"
+  apt_repository:
+    repo: deb https://download.webmin.com/download/repository sarge contrib
+    state: present
+
+- name: "Update apt and install apt-transport-https"
+  apt:
+    update_cache: yes
+    name: "apt-transport-https"
+
+- name: "Update apt and install webmin"
+  apt:
+    update_cache: yes
+    name: "webmin"
+

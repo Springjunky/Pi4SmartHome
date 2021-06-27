@@ -1,6 +1,8 @@
 ---
 - name: "Hello Pi"
-  become: yes
   debug:
-    msg: "Message in Variable:  {{ hello }} "
+    msg:
+      - "Message in Variable:  {{ hello }} "
+      - "Architecture: {{ ansible_architecture }} "
+      - "Os:           {{ ansible_os_family  }} "
 

@@ -1,6 +1,5 @@
 ---
 - name: "Install apt packages {{ apt.packages }}"
-  become: yes
   apt:
     update_cache: yes
     name: "{{ apt.packages }}"
