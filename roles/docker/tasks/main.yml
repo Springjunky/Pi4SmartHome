@@ -1,0 +1,16 @@
+# See https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script
+---
+- name: "Download docker convinience script"
+  get_url:
+    url: https://get.docker.com/
+    dest: /tmp/install_docker.sh
+    mode: "0777"
+
+- name: "Start donwloaded script"
+  shell: /tmp/install_docker.sh
+
+- name: "Add User pi to Docker-Group"
+  user:
+    name: '{{ docker.user }}'
+    groups: docker
+    append: yes

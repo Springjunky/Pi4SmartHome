@@ -1,13 +1,10 @@
 ---
 - name: "Setup Pi"
   hosts: localhost
-  # This is not in searchpath ?!?
-  # the vars directory should be ?!?
   vars_files:
-    - vars/hello.yml
-    - vars/apt-packages.yml
+    - vars/configuration.yml
   roles:
-#    - role: hello-world
-#    - role: update-system
-#    - role: apt-packages
+    - role: show-facts
+    - role: basic-setup
     - role: webmin
+#   - role: docker

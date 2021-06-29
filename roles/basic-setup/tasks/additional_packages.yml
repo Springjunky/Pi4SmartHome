@@ -1,5 +1,5 @@
 ---
-- name: "Install apt packages {{ apt.packages }}"
+- name: "Install additional apt packages {{ apt.packages }}"
   apt:
     update_cache: yes
     name: "{{ apt.packages }}"

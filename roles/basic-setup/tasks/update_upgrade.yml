@@ -1,17 +1,13 @@
 ---
 - name: "Update System"
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
-  
+
 - name: "Upgrade Packages"
   apt: upgrade=dist force_apt_get=yes
-  
+
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
   register: reboot_required_file
-  stat: path=/var/run/reboot-required get_md5=no  
-     
-- name: "Debug Information"
-  debug:
-    msg: "Reboot required is set to  {{ reboot_required_file }}"    
+  stat: path=/var/run/reboot-required get_md5=no
 
 - name: Reboot the Debian or Ubuntu server
   reboot:

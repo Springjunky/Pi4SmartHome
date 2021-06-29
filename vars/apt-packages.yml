@@ -1,6 +1,0 @@
----
-apt:
-  packages:
-    [ "htop",
-      "terminator",
-    ]

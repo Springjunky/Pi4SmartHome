@@ -9,4 +9,4 @@ fi
 
 apt-get install ansible -y
 
-ansible-playbook -vvvv setupPi.yml
+ansible-playbook -vv setupPi.yml

@@ -2,7 +2,9 @@
 - name: "Hello Pi"
   debug:
     msg:
-      - "Message in Variable:  {{ hello }} "
       - "Architecture: {{ ansible_architecture }} "
       - "Os:           {{ ansible_os_family  }} "
+      - "Apt-Packages: {{ apt.packages }} "
+      - "Docker-User: {{ docker.user }}"
+
 

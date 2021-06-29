@@ -1,0 +1,12 @@
+---
+
+# Additional Packages to install
+apt:
+  packages:
+    [ "htop",
+      "terminator",
+    ]
+
+# The 'normal' user added to docker-group to execute docker-commands without root
+docker:
+   user: "pi"

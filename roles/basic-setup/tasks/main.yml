@@ -1,0 +1,11 @@
+---
+
+- name: "Update and Upgrade"
+  include: update_upgrade.yml
+
+- name: "Addional apt"
+  include: additional_packages.yml
+
+- name: "Enable ssh"
+  include: ssh.yml
+
