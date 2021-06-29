@@ -1,0 +1,7 @@
+---
+- name: "Create directory for cron scripts"
+  file:
+    path: "{{ cron_script_dir }}"
+    state: directory
+    owner: pi
+    group: pi

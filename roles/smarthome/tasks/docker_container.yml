@@ -1,0 +1,20 @@
+---
+- name: "Create needed Directories owned by root"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  loop:
+    - "{{ docker.persistent_dir }}"
+    - "{{ docker.backup_dir }}"
+
+- name: "Create needed Directories owned by pi"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: pi
+    group: pi
+  loop:
+    - "{{ docker.compose_dir }}"
+

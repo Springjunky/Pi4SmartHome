@@ -10,3 +10,11 @@ apt:
 # The 'normal' user added to docker-group to execute docker-commands without root
 docker:
    user: "pi"
+   # The used directories
+   persistent_dir: "/DockerVolumes"
+   backup_dir: "/DockerVolumesBackup"
+   compose_dir: "/home/pi/Docker"
+   environment_file: "/home/pi/Docker/umgebung.env"
+
+cron_script_dir: "/home/pi/CronStartedScripts"
+
