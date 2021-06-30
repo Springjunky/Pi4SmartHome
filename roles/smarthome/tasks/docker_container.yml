@@ -18,3 +18,9 @@
   loop:
     - "{{ docker.compose_dir }}"
 
+- name: "Add environment-file for docker"
+  template:
+    src: templates/docker.env.j2
+    dest: "{{ docker.compose_dir }}/docker.env"
+
+#- name: "Copy environment File for all Container"

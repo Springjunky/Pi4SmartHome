@@ -4,8 +4,8 @@
   vars_files:
     - vars/configuration.yml
   roles:
-#    - role: show-facts
+    - role: show-facts
 #    - role: basic-setup
 #    - role: webmin
 #    - role: docker
-     - role: smarthome
+    - role: smarthome
