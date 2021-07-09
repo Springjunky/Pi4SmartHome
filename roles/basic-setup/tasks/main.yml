@@ -11,3 +11,6 @@
 
 - name: "Install docker"
   include: docker.yml
+
+- name: "Setup Scripts"
+  include: scripts.yml

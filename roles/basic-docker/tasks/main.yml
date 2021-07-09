@@ -1,4 +1,6 @@
 ---
+# role_container_name is set with the var-part of "include_role"
+
 - name: "Create directories owned by root (persistent root for docker and backup)"
   file:
     path: "{{ item }}"
@@ -6,41 +8,41 @@
     owner: root
     group: root
   loop:
-    - "{{ docker.persistent_root }}"
-    - "{{ docker.backup_dir }}"
+    - "{{ smart_home_data_dir }}"
+    - "{{ smart_home_backup_dir }}"
 
-- name: "Create persistence directory for {{ docker.persistent_root }}/{{ container_name }}"
+- name: "Create persistence directory for container {{ smart_home_data_dir }}/{{ role_container_name }}"
   file:
-    path: "{{ docker.persistent_root }}/{{ container_name }}"
+    path: "{{ smart_home_data_dir }}/{{ role_container_name }}"
     state: directory
-    owner: "{{ home_user }}"
-    group: "{{ home_user }}"
+    owner: "{{ smart_home_user }}"
+    group: "{{ smart_home_user }}"
 
 
-- name: "Create needed Directories owned by {{ home_user }}"
+- name: "Create needed Directories owned by {{ smart_home_user }}"
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ home_user }}"
-    group: "{{ home_user }}"
+    owner: "{{ smart_home_user }}"
+    group: "{{ smart_home_user }}"
   loop:
-    - "{{ docker.compose_dir }}"
+    - "{{ docker_compose_dir }}"
 
 - name: "Add environment-file for alle docker-compose stacks"
   template:
     src: templates/docker.env.j2
-    dest: "{{ docker.compose_dir }}/docker.env"
+    dest: "{{ docker_environment_file }}"
 
-- name: "Create docker-compose directory for container  {{ docker.compose_dir }}/{{ container_name }}"
+- name: "Create docker-compose directory for container  {{ docker_compose_dir }}/{{ role_container_name }}"
   file:
-    path: "{{ docker.compose_dir }}/{{ container_name }}"
+    path: "{{ docker_compose_dir }}/{{ role_container_name }}"
     state: directory
-    owner: "{{ home_user }}"
-    group: "{{ home_user }}"
+    owner: "{{ smart_home_user }}"
+    group: "{{ smart_home_user }}"
 
-- name: "Create link to global docker-env-file {{ docker.compose_dir }}/{{ container_name }}/.env to {{ docker.compose_dir }}/docker.env"
+- name: "Create link to global docker-env-file {{ docker_compose_dir }}/{{ role_container_name }}/.env to {{ docker_compose_dir }}/docker.env"
   file:
-    src: "{{ docker.compose_dir }}/docker.env"
-    dest: "{{ docker.compose_dir }}/{{ container_name }}/.env"
+    src: "{{ docker_compose_dir }}/docker.env"
+    dest: "{{ docker_compose_dir }}/{{ role_container_name }}/.env"
     state: link
 

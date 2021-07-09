@@ -1,12 +1,21 @@
 ---
 
-- name: "Hello Pi"
+- name: "--------------------- Configuration --------------------------------"
   debug:
     msg:
       - "Architecture: {{ ansible_architecture }} "
       - "Os:           {{ ansible_os_family  }} "
-      - "Apt-Packages: {{ apt.packages }} "
-      - "Home-User / Docker-User: {{ home_user }}"
+      - "Apt-Packages: {{ apt_packages }} "
+      - "Smarthome-User / Docker-User: {{ smart_home_user }}"
+      - "Smarthome Root        {{ smart_home_root }}"
+      - "Smarthome Basedir     {{ smart_home_base_dir }}"
+      - "Smarthome Datadir     {{ smart_home_data_dir }}"
+      - "Smarthome Backupdir   {{ smart_home_backup_dir }}"
+      - "Smarthome Restoredir  {{ smart_home_restore_dir }}"
+      - "Docker-Compose-Dir    {{ docker_compose_dir }} "
+      - "Docker-Env-File       {{ docker_environment_file }}"
+      - "Smarthome-Scripts-Root: {{ smarthome_scripts_root  }}"
+      - "Smarthome-Cronscriptdir: {{ smarthome_cron_scripts }} "
       - "Ip-Address: {{ ansible_default_ipv4.address }}"
       - "Host Name: {{ansible_hostname}}  - {{ ansible_dns.domain }} "
 

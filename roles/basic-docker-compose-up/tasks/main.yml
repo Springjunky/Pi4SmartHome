@@ -1,13 +1,14 @@
 ---
-- name: "Starting Container with compose-file {{ compose_dir }}/ "
+# role_compose_dir and role_health_check set with the var-part of "include_role"
+- name: "Starting Container with compose-file {{ role_compose_dir }}/ "
   community.docker.docker_compose:
-    project_src: "{{ compose_dir }}/"
+    project_src: "{{ role_compose_dir }}/"
     recreate: always
 
 
-- name: "Waiting for Enpoint at {{ health_check }}"
+- name: "Waiting for Endpoint at {{ role_health_check }}"
   uri:
-    url: "{{ health_check }}"
+    url: "{{ role_health_check }}"
     status_code: 200
   register: result
   until: result.status == 200

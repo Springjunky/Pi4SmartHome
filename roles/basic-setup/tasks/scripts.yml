@@ -1,0 +1,14 @@
+---
+- name: "Create directory for  scripts {{ smarthome_scripts_root }}"
+  file:
+    path: "{{ smarthome_scripts_root }}"
+    state: directory
+    owner: "{{ smart_home_user }}"
+    group: "{{ smart_home_user }}"
+
+- name: "Create directory for cron startedt scripts {{ smarthome_cron_scripts }}"
+  file:
+    path: "{{ smarthome_cron_scripts }}"
+    state: directory
+    owner: "{{ smart_home_user }}"
+    group: "{{ smart_home_user }}"

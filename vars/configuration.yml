@@ -1,25 +1,43 @@
 ---
 
 # Additional Packages to install
-apt:
-  packages:  [ "htop","terminator"  ]
+apt_packages:  [ "htop","terminator"  ]
 
-# If you want to change the default user add this user before to your system and change this var
+# If you want to change the default user add this user before to your system and change
+# smart_home_user
 # this user is able to execute docker-commands without root
 # this home-directroy stores all compose-files and scripts
-home_user: pi
+smart_home_user: pi
+smart_home_root:        "/home/{{ smart_home_user }}"
+smart_home_base_dir:    "{{ smart_home_root}}/SmarthomeBase"
+smart_home_data_dir:    "{{ smart_home_root}}/SmarthomeData"
+smart_home_backup_dir:  "{{ smart_home_root}}/SmarthomeDataBackup"
+smart_home_restore_dir: "{{ smart_home_root}}/SmarthomeDataRestore"
 
-# The 'normal' user added to docker-group to execute docker-commands without root
-docker:
-   # The used directories
-   persistent_root: "/DockerVolumes"
-   backup_dir: "/DockerVolumesBackup"
-   compose_dir: "/home/{{ home_user }}/Docker"
-   environment_file: "/home/{{ home_user }}/Docker/umgebung.env"
+docker_compose_dir: "{{ smart_home_base_dir }}/Docker"
+docker_environment_file: "{{ docker_compose_dir }}/docker.env"
 
-cron_script_dir: "/home/{{ home_user }}/CronStartedScripts"
+smarthome_scripts_root: "{{ smart_home_base_dir }}/Scripts"
+smarthome_cron_scripts: "{{ smarthome_scripts_root }}/CronStartedScripts"
+
+# Configure Postfix to Send Mail Using Gmail and Google Workspace
+# see  https://www.linode.com/docs/guides/configure-postfix-to-send-mail-using-gmail-and-google-workspace-on-debian-or-ubuntu/
+# I recommend an extra account only for this.
+postfix_gmail:
+  email: "sample@smarthome.com"
+  password: "place yout password here"
 
 
-#    - Grafana
-#    - Influx
-#    - Portainer
+
+# send message with pushover, see https://pushover.net/
+pushover:
+  enable: true
+  user:  "place here your usertoken"
+  token: "place here yout token"
+  # If the Script is not able to send a pushover message, it sends an email to this address
+  fallback_to_email: "sample@smarthome.com"
+
+
+enable_iobroker: true
+enable_grafana: true
+

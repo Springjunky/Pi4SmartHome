@@ -1,26 +1,26 @@
 ---
 - name: "Setup Grafana"
   vars:
-    block_name: "IOBroker"
+    container_name: "IOBroker"
   block:
     - name: "Setup basic files and folders"
       include_role:
         name: basic-docker
       vars:
-        container_name: "{{ block_name }}"
-    - name: "Copy  compose-file to {{ docker.compose_dir }}/{{ block_name }}/docker-compose.yml"
+        role_container_name: "{{ container_name }}"
+    - name: "Copy  compose-file to {{ docker_compose_dir }}/{{ container_name }}/docker-compose.yml"
       copy:
         src: "files/docker-compose.yml"
-        dest: "{{ docker.compose_dir }}/{{ block_name }}/docker-compose.yml"
-        owner: "{{ home_user }}"
-        group: "{{ home_user }}"
+        dest: "{{ docker_compose_dir }}/{{ container_name }}/docker-compose.yml"
+        owner: "{{ smart_home_user }}"
+        group: "{{ smart_home_user }}"
 
     - name: "Start Container and wait for readiness"
       include_role:
         name: basic-docker-compose-up
       vars:
-        compose_dir: "{{ docker.compose_dir }}/{{ block_name }}"
-        health_check: "http://localhost:8081/"
+        role_compose_dir: "{{ docker_compose_dir }}/{{ container_name }}"
+        role_health_check: "http://localhost:8081/"
 
 
 

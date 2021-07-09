@@ -1,40 +1,40 @@
 ---
 - name: "Setup Grafana"
   vars:
-    block_name: "Grafana"
+    container_name: "Grafana"
   block:
     - name: "Setup basic files and folders"
       include_role:
         name: basic-docker
       vars:
-        container_name: "{{ block_name }}"
-    - name: "Copy  compose-file to {{ docker.compose_dir }}/{{ block_name }}/docker-compose.yml"
+        role_container_name: "{{ container_name }}"
+    - name: "Copy  compose-file to {{ docker_compose_dir }}/{{ container_name }}/docker-compose.yml"
       copy:
         src: "files/docker-compose.yml"
-        dest: "{{ docker.compose_dir }}/{{ block_name }}/docker-compose.yml"
-        owner: "{{ home_user }}"
-        group: "{{ home_user }}"
+        dest: "{{ docker_compose_dir }}/{{ container_name }}/docker-compose.yml"
+        owner: "{{ smart_home_user }}"
+        group: "{{ smart_home_user }}"
     - name: "Copy default Ini-File for Grafana"
       template:
         src: templates/grafana.ini.j2
-        dest: "{{ docker.persistent_root }}/{{ block_name }}/grafana.ini"
-        owner: "{{ home_user }}"
-        group: "{{ home_user }}"
+        dest: "{{ smart_home_data_dir }}/{{ container_name }}/grafana.ini"
+        owner: "{{ smart_home_user }}"
+        group: "{{ smart_home_user }}"
         mode: "o+rw"
     - name: "Create persistence Subfolder (matches compose-file)"
       file:
-        path: "{{ docker.persistent_root }}/{{ block_name }}/var_lib_grafana"
+        path: "{{ smart_home_data_dir }}/{{ container_name }}/var_lib_grafana"
         state: directory
-        owner: "{{ home_user }}"
-        group: "{{ home_user }}"
+        owner: "{{ smart_home_user }}"
+        group: "{{ smart_home_user }}"
         mode: "o+rwx"
 
     - name: "Start Container and wait for readiness"
       include_role:
         name: basic-docker-compose-up
       vars:
-        compose_dir: "{{ docker.compose_dir }}/{{ block_name }}"
-        health_check: "http://localhost:3000/"
+        role_compose_dir: "{{ docker_compose_dir }}/{{ container_name }}"
+        role_health_check: "http://localhost:3000/"
 
 
 
