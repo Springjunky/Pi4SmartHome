@@ -1,7 +1,0 @@
----
-
-- name: "Create docker directories"
-  include: docker_container.yml
-
-- name: "Setup Cron Scripts"
-  include: cron_scripts.yml

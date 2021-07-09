@@ -21,3 +21,13 @@
     update_cache: yes
     name: "webmin"
 
+- name: "Waiting for Webmin"
+  uri:
+    url: "http://localhost:10000"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1
+
+

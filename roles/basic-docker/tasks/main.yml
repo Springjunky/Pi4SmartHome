@@ -1,0 +1,46 @@
+---
+- name: "Create directories owned by root (persistent root for docker and backup)"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  loop:
+    - "{{ docker.persistent_root }}"
+    - "{{ docker.backup_dir }}"
+
+- name: "Create persistence directory for {{ docker.persistent_root }}/{{ container_name }}"
+  file:
+    path: "{{ docker.persistent_root }}/{{ container_name }}"
+    state: directory
+    owner: "{{ home_user }}"
+    group: "{{ home_user }}"
+
+
+- name: "Create needed Directories owned by {{ home_user }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ home_user }}"
+    group: "{{ home_user }}"
+  loop:
+    - "{{ docker.compose_dir }}"
+
+- name: "Add environment-file for alle docker-compose stacks"
+  template:
+    src: templates/docker.env.j2
+    dest: "{{ docker.compose_dir }}/docker.env"
+
+- name: "Create docker-compose directory for container  {{ docker.compose_dir }}/{{ container_name }}"
+  file:
+    path: "{{ docker.compose_dir }}/{{ container_name }}"
+    state: directory
+    owner: "{{ home_user }}"
+    group: "{{ home_user }}"
+
+- name: "Create link to global docker-env-file {{ docker.compose_dir }}/{{ container_name }}/.env to {{ docker.compose_dir }}/docker.env"
+  file:
+    src: "{{ docker.compose_dir }}/docker.env"
+    dest: "{{ docker.compose_dir }}/{{ container_name }}/.env"
+    state: link
+

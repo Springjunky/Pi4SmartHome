@@ -1,0 +1,15 @@
+---
+- name: "Starting Container with compose-file {{ compose_dir }}/ "
+  community.docker.docker_compose:
+    project_src: "{{ compose_dir }}/"
+    recreate: always
+
+
+- name: "Waiting for Enpoint at {{ health_check }}"
+  uri:
+    url: "{{ health_check }}"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1

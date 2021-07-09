@@ -6,7 +6,7 @@
       - "Architecture: {{ ansible_architecture }} "
       - "Os:           {{ ansible_os_family  }} "
       - "Apt-Packages: {{ apt.packages }} "
-      - "Docker-User: {{ docker.user }}"
+      - "Home-User / Docker-User: {{ home_user }}"
       - "Ip-Address: {{ ansible_default_ipv4.address }}"
       - "Host Name: {{ansible_hostname}}  - {{ ansible_dns.domain }} "
 

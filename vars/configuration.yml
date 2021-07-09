@@ -2,19 +2,24 @@
 
 # Additional Packages to install
 apt:
-  packages:
-    [ "htop",
-      "terminator",
-    ]
+  packages:  [ "htop","terminator"  ]
+
+# If you want to change the default user add this user before to your system and change this var
+# this user is able to execute docker-commands without root
+# this home-directroy stores all compose-files and scripts
+home_user: pi
 
 # The 'normal' user added to docker-group to execute docker-commands without root
 docker:
-   user: "pi"
    # The used directories
-   persistent_dir: "/DockerVolumes"
+   persistent_root: "/DockerVolumes"
    backup_dir: "/DockerVolumesBackup"
-   compose_dir: "/home/pi/Docker"
-   environment_file: "/home/pi/Docker/umgebung.env"
+   compose_dir: "/home/{{ home_user }}/Docker"
+   environment_file: "/home/{{ home_user }}/Docker/umgebung.env"
 
-cron_script_dir: "/home/pi/CronStartedScripts"
+cron_script_dir: "/home/{{ home_user }}/CronStartedScripts"
 
+
+#    - Grafana
+#    - Influx
+#    - Portainer

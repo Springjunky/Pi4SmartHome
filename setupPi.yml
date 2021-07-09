@@ -5,7 +5,7 @@
     - vars/configuration.yml
   roles:
     - role: show-facts
-#    - role: basic-setup
-#    - role: webmin
-#    - role: docker
-    - role: smarthome
+    - role: basic-setup
+    - role: webmin
+    - role: iobroker
+    - role: grafana

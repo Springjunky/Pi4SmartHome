@@ -1,0 +1,33 @@
+# See https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script
+---
+- name: "Check if docker is installed"
+  stat:
+    path: "/usr/bin/docker"
+  register: docker_bin
+- debug:
+    var: docker_bin
+
+- name: "Install docker if not installed"
+  block:
+    - name: "Download docker convinience script"
+      get_url:
+        url: https://get.docker.com/
+        dest: /tmp/install_docker.sh
+        mode: "0777"
+
+    - name: "Start donwloaded script"
+      shell: /tmp/install_docker.sh
+
+    - name: "Add docker-user  to Docker-Group"
+      user:
+        name: '{{ home_user }}'
+        groups: docker
+        append: yes
+
+    - name: "Install docker-compose tool"
+      pip:
+        executable: pip3
+        name:
+          - docker-compose
+          - docker
+  when: not docker_bin.stat.exists

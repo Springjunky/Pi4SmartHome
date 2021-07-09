@@ -1,0 +1,20 @@
+[auth.anonymous]
+enabled = true
+
+# Organization name that should be used for unauthenticated users
+org_name = Main Org.
+
+# Role for unauthenticated users, other valid values are `Editor` and `Admin`
+org_role = Admin
+
+[auth.basic]
+enabled = false
+
+[auth]
+#disable_login_form = true
+
+[security]
+allow_embedding = true
+
+[server]
+root_url = http://{{ ansible_hostname }}:3000
