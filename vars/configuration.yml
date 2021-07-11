@@ -25,7 +25,7 @@ smarthome_cron_scripts: "{{ smarthome_scripts_root }}/CronStartedScripts"
 # I recommend an extra account only for this.
 postfix_gmail:
   email: "sample@smarthome.com"
-  password: "place yout password here"
+  password: "secret" #your password / access token
 
 
 

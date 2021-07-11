@@ -1,0 +1,59 @@
+---
+# see  https://www.linode.com/docs/guides/configure-postfix-to-send-mail-using-gmail-and-google-workspace-on-debian-or-ubuntu/
+
+- name: "Set Postfix option hostname (automatic answer)"
+  debconf:
+    name=postifx
+    question="postfix/mailname"
+    value="sandbox"
+    vtype="string"
+
+- name: "Set Postfix option type as internet site (automatic answer)"
+  debconf:
+    name=postfix
+    question="postfix/main_mailer_type"
+    value="'Internet Site'"
+    vtype="string"
+
+- name: "Install libsasl2-modules, mailutils and postfix "
+  apt:
+    update_cache: yes
+    name:
+      - libsasl2-modules
+      - mailutils
+      - postfix
+
+- name: "Copy Postfix Configuration for Gmail to /etc/postfix/main.cf"
+  template:
+    src: templates/main.cf.j2
+    dest: "/etc/postfix/main.cf"
+    owner: "root"
+    group: "root"
+    mode: "go+r-xw,u+rw-x"
+
+- name: "Enable postfix on boot"
+  systemd:
+    name: postfix
+    state: restarted
+    enabled: true
+
+- name: "Create /etc/mailname used by postmap"
+  template:
+    src: templates/mailname.j2
+    dest: "/etc/mailname"
+    owner: "root"
+    group: "root"
+    mode: "u+rw-x,go-rwx"
+
+- name: "Copy Account Information File for Gmail to /etc/postfix/sasl/sasl_passwd"
+  template:
+    src: templates/sasl_passwd.j2
+    dest: "/etc/postfix/sasl/sasl_passwd"
+    owner: "root"
+    group: "root"
+    mode: "u+rw-x,go-rwx"
+
+- name: "Do 'postmap /etc/postfix/sasl/sasl_passwd'  "
+  shell: postmap /etc/postfix/sasl/sasl_passwd
+
+

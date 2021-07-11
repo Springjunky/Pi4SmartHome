@@ -20,14 +20,14 @@
 
     - name: "Add docker-user  to Docker-Group"
       user:
-        name: '{{ home_user }}'
+        name: '{{ smart_home_user }}'
         groups: docker
         append: yes
 
     - name: "Install docker-compose tool"
       pip:
-        executable: pip3
+#        executable: pip3
         name:
           - docker-compose
           - docker
-  when: not docker_bin.stat.exists
+# when: not docker_bin.stat.exists
