@@ -6,11 +6,12 @@
 - name: "install additional apt packages"
   include: additional_packages.yml
 
-- name: "Enable ssh"
-  include: ssh.yml
-
-- name: "Install docker"
-  include: docker.yml
+- name: "do some mods"
+  include: system_mods.yml
 
 - name: "Setup Scripts"
   include: scripts.yml
+
+- name: "Install docker"
+  include: install_docker.yml
+

@@ -1,22 +1,15 @@
 ---
 # role_container_name is set with the var-part of "include_role"
 
-- name: "Create directories owned by root (persistent root for docker and backup)"
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: root
-    group: root
-  loop:
-    - "{{ smart_home_data_dir }}"
-    - "{{ smart_home_backup_dir }}"
-
-- name: "Create persistence directory for container {{ smart_home_data_dir }}/{{ role_container_name }}"
-  file:
-    path: "{{ smart_home_data_dir }}/{{ role_container_name }}"
-    state: directory
-    owner: "{{ smart_home_user }}"
-    group: "{{ smart_home_user }}"
+#- name: "Create directories owned by root (persistent root for docker and backup)"
+#  file:
+#    path: "{{ item }}"
+#    state: directory
+#    owner: root
+#    group: root
+#  loop:
+#    - "{{ smart_home_data_dir }}"
+#    - "{{ smart_home_backup_dir }}"
 
 
 - name: "Create needed Directories owned by {{ smart_home_user }}"
@@ -25,24 +18,22 @@
     state: directory
     owner: "{{ smart_home_user }}"
     group: "{{ smart_home_user }}"
+    mode: "ug+rwx,o-w+rx"
   loop:
-    - "{{ docker_compose_dir }}"
+    - "{{ smart_home_data_dir }}"
+    - "{{ smart_home_backup_dir }}"
+    - "{{ smart_home_data_dir }}/{{ role_container_name }}"
+    - "{{ smart_home_container_dir }}"
+    - "{{ smart_home_container_dir }}/{{ role_container_name }}"
 
-- name: "Add environment-file for alle docker-compose stacks"
+- name: "Add environment-file for all docker-compose stacks"
   template:
     src: templates/docker.env.j2
-    dest: "{{ docker_environment_file }}"
+    dest: "{{ smart_home_container_dir }}/docker.env"
 
-- name: "Create docker-compose directory for container  {{ docker_compose_dir }}/{{ role_container_name }}"
+- name: "Create link to global docker-env-file {{ smart_home_container_dir }}/{{ role_container_name }}/.env -> {{ smart_home_container_dir }}/docker.env"
   file:
-    path: "{{ docker_compose_dir }}/{{ role_container_name }}"
-    state: directory
-    owner: "{{ smart_home_user }}"
-    group: "{{ smart_home_user }}"
-
-- name: "Create link to global docker-env-file {{ docker_compose_dir }}/{{ role_container_name }}/.env to {{ docker_compose_dir }}/docker.env"
-  file:
-    src: "{{ docker_compose_dir }}/docker.env"
-    dest: "{{ docker_compose_dir }}/{{ role_container_name }}/.env"
+    src: "{{ smart_home_container_dir }}/docker.env"
+    dest: "{{ smart_home_container_dir }}/{{ role_container_name }}/.env"
     state: link
 

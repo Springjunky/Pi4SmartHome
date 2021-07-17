@@ -1,14 +1,71 @@
 ---
-- name: "Create directory for  scripts {{ smarthome_scripts_root }}"
+- name: "Create directory for  scripts {{ smart_home_script_dir }}"
   file:
-    path: "{{ smarthome_scripts_root }}"
+    path: "{{ smart_home_script_dir }}"
     state: directory
     owner: "{{ smart_home_user }}"
     group: "{{ smart_home_user }}"
 
-- name: "Create directory for cron startedt scripts {{ smarthome_cron_scripts }}"
-  file:
-    path: "{{ smarthome_cron_scripts }}"
-    state: directory
+
+- name: "Copy base-Scripts to {{ smart_home_script_dir }}"
+  template:
+    src: "templates/{{ item }}"
+    dest: "{{ smart_home_script_dir }}/{{ item }}"
     owner: "{{ smart_home_user }}"
     group: "{{ smart_home_user }}"
+    mode: "+x"
+  loop:
+    - "sendPushover.sh"
+    - "sendMail.sh"
+    - "cronStartedDockerVolumeBackup.sh"
+    - "cronStartedRegularReboot.sh"
+
+- name: "add backupscript to cron table (at 2 am) "
+  cron:
+    user: "{{ smart_home_user  }}"
+    name: "Create Docker Volumens Backup"
+    minute: "0"
+    hour: "2"
+    weekday: "0,2,5"
+    job: "sudo {{ smart_home_script_dir }}/cronStartedDockerVolumeBackup.sh  1>/tmp/cronStartetDockerVolumeBackup.txt 2>/tmp/cronStartetDockerVolumeBackup.err"
+
+- name: "add rebootscript to cron table (weekly, sunday at 4:00) "
+  cron:
+    user: "{{ smart_home_user  }}"
+    name: "Reboot the Pie every week to keep the system stable"
+    minute: "40"
+    hour: "4"
+    weekday: "0"
+    job: "sudo {{ smart_home_script_dir }}/cronStartedRegularReboot.sh  1>/tmp/cronStartetRegularReboot.txt 2>/tmp/cronStartetRegularReboot.err"
+
+- name: "add notification after reboot to cron table "
+  cron:
+    user: "{{ smart_home_user  }}"
+    name: "Notification after reboot"
+    special_time: "reboot"
+    job: "sudo {{ smart_home_script_dir }}/cronStartedAfterReboot.sh  1>/tmp/cronStartedAfterReboot.txt 2>/tmp/cronStartedAfterReboot.err"
+
+- name: "add Heartbeat to crontable "
+  cron:
+    user: "{{ smart_home_user  }}"
+    name: "Heartbeat"
+    minute: "0"
+    weekday: "{{ heartbeat.weekday}}"
+    hour: "{{ heartbeat.hour }}"
+    job: "sudo {{ smart_home_script_dir }}/cronStartedHeartbeat.sh  1>/tmp/cronStartedHeartbeat.txt 2>/tmp/cronStartetRegularReboot.err"
+  when: heartbeat.enabled == true
+
+- name: "Create notfification gate to pushover"
+  file:
+    src: "{{ smart_home_script_dir }}/sendPushover.sh"
+    dest: "{{ smart_home_script_dir }}/notificationGate.sh"
+    state: link
+  when: notification.pushover.enabled == true
+
+- name: "Create notfification gate to Email"
+  file:
+    src: "{{ smart_home_script_dir }}/sendMail.sh"
+    dest: "{{ smart_home_script_dir }}/notificationGate.sh"
+    state: link
+  when: notification.pushover.enabled == false
+

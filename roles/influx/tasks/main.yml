@@ -1,7 +1,7 @@
 ---
-- name: "Setup IOBroker "
+- name: "Setup Influx "
   vars:
-    container_name: "IOBroker"
+    container_name: "Influxdb"
   block:
     - name: "Setup basic files and folders"
       include_role:
@@ -19,7 +19,7 @@
         name: basic-docker-compose-up
       vars:
         role_compose_dir: "{{ smart_home_container_dir }}/{{ container_name }}"
-        role_health_check: "http://localhost:8081/"
+        role_health_check: "http://localhost:8086/health"
 
 
 

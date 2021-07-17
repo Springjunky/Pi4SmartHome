@@ -8,12 +8,12 @@
         name: basic-docker
       vars:
         role_container_name: "{{ container_name }}"
-    - name: "Copy  compose-file to {{ docker_compose_dir }}/{{ container_name }}/docker-compose.yml"
-      copy:
-        src: "files/docker-compose.yml"
-        dest: "{{ docker_compose_dir }}/{{ container_name }}/docker-compose.yml"
-        owner: "{{ smart_home_user }}"
-        group: "{{ smart_home_user }}"
+
+    - name: "Copy  compose-file to {{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
+      template:
+        src: "templates/docker-compose.yml.j2"
+        dest: "{{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
+
     - name: "Copy default Ini-File for Grafana"
       template:
         src: templates/grafana.ini.j2
@@ -33,7 +33,7 @@
       include_role:
         name: basic-docker-compose-up
       vars:
-        role_compose_dir: "{{ docker_compose_dir }}/{{ container_name }}"
+        role_compose_dir: "{{ smart_home_container_dir }}/{{ container_name }}"
         role_health_check: "http://localhost:3000/"
 
 

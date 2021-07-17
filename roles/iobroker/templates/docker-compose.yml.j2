@@ -8,27 +8,25 @@ services:
     extra_hosts:
       - ${HOST_NAME}:${HOST_IP}
       - ${HOST_NAME_FULL}:${HOST_IP}
-    container_name: IOBroker
-#    devices:
-#      - /dev/ttyAMA0:/dev/ttyAMA0
-#      - /dev/ttyACM0:/dev/ttyACM0
+    container_name: {{ container_name }}
+    devices:
+      - "/dev/ttyAMA0:/dev/ttyAMA0"
+      - "/dev/ttyACM0:/dev/ttyACM0" # Zigbee an others
     environment:
-      - PACKAGES=vim net-tools nfs-common cifs-utils
+      - PACKAGES=vim net-tools nfs-common cifs-utils udev
       - ADMINPORT=8081
 #      - USBDEVICES=/dev/ttyAMA0;/dev/ttyACM0
     privileged: true
-    healthcheck:
-      test: curl --fail -s http://localhost:8087/get/system.adapter.admin.0.alive || exit 1
-      interval: 3m
-      timeout: 5s
-      retries: 10
     ports:
       - 8081:8081 # Admin-Adapter
       - 8082:8082 # WebServer VIS und Float
-      - 8087:8087 # Simple-Api für Health-Check with 3rd pary tool
+      - 8087:8087 # Simple-Api if installed
       - 1880:1880 # Node Red
+      - 1883:1883 # MQTT
+      - 8883:8883 # MQTT
+      - 8091:8091 # Lovelace
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq:/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq:ro
-      - ${DOCKER_VOLUMES_BASE}/IOBroker/opt/iobroker:/opt/iobroker
-      - ${DOCKER_VOLUMES_BASE}/IOBroker/history:/history
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}/opt/iobroker:/opt/iobroker
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}/history:/history

@@ -4,12 +4,12 @@ services:
   grafana:
     restart: always
     image: grafana/grafana
-    container_name: Grafana
+    container_name: {{ container_name }}
     extra_hosts:
       - ${HOST_NAME}:${HOST_IP}
       - ${HOST_NAME_FULL}:${HOST_IP}
     ports:
       - "3000:3000"
     volumes:
-      - ${DOCKER_VOLUMES_BASE}/Grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ${DOCKER_VOLUMES_BASE}/Grafana/var_lib_grafana:/var/lib/grafana
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}/grafana.ini:/etc/grafana/grafana.ini
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}/var_lib_grafana:/var/lib/grafana

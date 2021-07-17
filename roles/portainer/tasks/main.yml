@@ -1,25 +1,33 @@
 ---
-- name: "Setup IOBroker "
+- name: "Setup Portainer"
   vars:
-    container_name: "IOBroker"
+    container_name: "Portainer"
   block:
     - name: "Setup basic files and folders"
       include_role:
         name: basic-docker
       vars:
-        role_container_name:    "{{ container_name }}"
+        role_container_name: "{{ container_name }}"
 
     - name: "Copy  compose-file to {{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
       template:
         src: "templates/docker-compose.yml.j2"
         dest: "{{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
 
+    - name: "Copy cleartext password to {{ smart_home_data_dir }}/{{ container_name }}"
+      copy:
+        src: "files/admin-password.txt"
+        dest: "{{ smart_home_data_dir }}/{{ container_name }}"
+        owner: "{{ smart_home_user }}"
+        group: "{{ smart_home_user }}"
+        mode: "o+r"
+
     - name: "Start Container and wait for readiness"
       include_role:
         name: basic-docker-compose-up
       vars:
         role_compose_dir: "{{ smart_home_container_dir }}/{{ container_name }}"
-        role_health_check: "http://localhost:8081/"
+        role_health_check: "http://localhost:9000/"
 
 
 

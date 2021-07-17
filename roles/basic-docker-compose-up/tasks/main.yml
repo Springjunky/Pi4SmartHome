@@ -1,9 +1,10 @@
 ---
 # role_compose_dir and role_health_check set with the var-part of "include_role"
-- name: "Starting Container with compose-file {{ role_compose_dir }}/ "
+- name: "Pull and start Container with compose-file located in {{ role_compose_dir }}/ (this may take a while)"
   community.docker.docker_compose:
     project_src: "{{ role_compose_dir }}/"
     recreate: always
+
 
 
 - name: "Waiting for Endpoint at {{ role_health_check }}"

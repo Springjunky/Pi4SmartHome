@@ -18,7 +18,7 @@
     - name: "Start donwloaded script"
       shell: /tmp/install_docker.sh
 
-    - name: "Add docker-user  to Docker-Group"
+    - name: "Add docker-user {{ smart_home_user }} to Docker-Group"
       user:
         name: '{{ smart_home_user }}'
         groups: docker
@@ -26,8 +26,10 @@
 
     - name: "Install docker-compose tool"
       pip:
-#        executable: pip3
+        executable: pip3
         name:
           - docker-compose
           - docker
-# when: not docker_bin.stat.exists
+
+  when: not docker_bin.stat.exists
+  

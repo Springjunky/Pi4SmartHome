@@ -1,0 +1,19 @@
+version: "2"
+services:
+  dokuwiki:
+    image: linuxserver/dokuwiki
+    container_name: {{ container_name }}
+    environment:
+      - PUID={{user_id.stdout}}
+      - PGID={{group_id.stdout}}
+      - TZ=Europe/Berlin
+#      - APP_URL=/{{ container_name }} #optional
+    extra_hosts:
+      - ${HOST_NAME}:${HOST_IP}
+      - ${HOST_NAME_FULL}:${HOST_IP}
+    volumes:
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}/config:/config
+    ports:
+      - 80:80
+#      - 443:443 #optional
+    restart: always

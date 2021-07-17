@@ -1,6 +1,5 @@
 ---
 # see  https://www.linode.com/docs/guides/configure-postfix-to-send-mail-using-gmail-and-google-workspace-on-debian-or-ubuntu/
-
 - name: "Set Postfix option hostname (automatic answer)"
   debconf:
     name=postifx
@@ -31,19 +30,13 @@
     group: "root"
     mode: "go+r-xw,u+rw-x"
 
-- name: "Enable postfix on boot"
-  systemd:
-    name: postfix
-    state: restarted
-    enabled: true
-
 - name: "Create /etc/mailname used by postmap"
   template:
     src: templates/mailname.j2
     dest: "/etc/mailname"
     owner: "root"
     group: "root"
-    mode: "u+rw-x,go-rwx"
+    mode: "u+rw-x,go-wx+r"
 
 - name: "Copy Account Information File for Gmail to /etc/postfix/sasl/sasl_passwd"
   template:
@@ -53,7 +46,18 @@
     group: "root"
     mode: "u+rw-x,go-rwx"
 
-- name: "Do 'postmap /etc/postfix/sasl/sasl_passwd'  "
+- name: "Create postfix lookup table 'postmap /etc/postfix/sasl/sasl_passwd'  "
   shell: postmap /etc/postfix/sasl/sasl_passwd
 
+- name: "Enable postfix on boot"
+  systemd:
+    name: postfix
+    state: restarted
+    enabled: true
 
+- name: "Send Test-Email"
+  mail:
+    subject: "Hello Smarthome"
+    from: "{{ smart_home_user }}@{{ ansible_hostname }}.{{ ansible_dns.domain }}"
+    to: "{{notification.recipient}}"
+    body: "System {{ ansible_hostname }} has been successfully provisioned to send Emails with google mail"

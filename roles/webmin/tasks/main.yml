@@ -6,7 +6,6 @@
     state: present
 
 - name: "Add apt-Repository for Webmin"
-  become: "yes"
   apt_repository:
     repo: deb https://download.webmin.com/download/repository sarge contrib
     state: present
@@ -20,6 +19,27 @@
   apt:
     update_cache: yes
     name: "webmin"
+
+- name: "Disable https to prevent certificate warnings (see https://doxfer.webmin.com/Webmin/Securing_Webmin)"
+  lineinfile:
+    path: /etc/webmin/miniserv.conf
+    # The String to Search
+    regexp: "ssl=1"
+    # The String to Replace
+    line: "ssl=0"
+    state: present
+    backup: yes
+
+- name: "Configure Webmin to update all packages and notify you"
+  template:
+    src: templates/package_config.j2
+    dest: /etc/webmin/package-updates/config
+    force: true
+
+- name: "Restart webmin"
+  systemd:
+    name: webmin
+    state: restarted
 
 - name: "Waiting for Webmin"
   uri:

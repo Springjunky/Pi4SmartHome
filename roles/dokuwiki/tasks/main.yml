@@ -1,0 +1,54 @@
+---
+- name: "Setup DokuWiki "
+  vars:
+    container_name: "DokuWiki"
+  block:
+    - name: "Install apt-keys for Backports / Dokuwiki see https://docs.linuxserver.io/faq#libseccomp"
+      apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: "{{ item }}"
+        state: present
+      loop:
+        - '04EE7237B7D453EC'
+        - '648ACFD622F3D138'
+    - name: "add Backport repository "
+      apt_repository:
+        repo: deb http://deb.debian.org/debian buster-backports main
+        state: present
+
+      # why does ansible ignores the default_release parameter ?
+    - name: "Install libseccomp2.4.4 "
+      shell: "apt update && apt install -t buster-backports libseccomp2"
+        
+
+    - name: "Get UID for User {{ smart_home_user }}"
+      shell: "id -u {{ smart_home_user }}"
+      register: user_id
+      changed_when: false
+
+    - name: "Get GID for User {{ smart_home_user  }}"
+      shell: "id -g {{ smart_home_user  }}"
+      register: group_id
+      changed_when: false
+
+    - name: "Setup basic files and folders"
+      include_role:
+        name: basic-docker
+      vars:
+        role_container_name:    "{{ container_name }}"
+
+    - name: "Copy  compose-file to {{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
+      template:
+        src: "templates/docker-compose.yml.j2"
+        dest: "{{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
+
+    - name: "Start Container and wait for readiness"
+      include_role:
+        name: basic-docker-compose-up
+      vars:
+        role_compose_dir: "{{ smart_home_container_dir }}/{{ container_name }}"
+        role_health_check: "http://localhost"
+
+
+
+

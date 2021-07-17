@@ -1,0 +1,15 @@
+---
+version: "3.5"
+services:
+  influxdb:
+    restart: always
+    image: influxdb:1.8.6
+    container_name: {{ container_name }}
+    extra_hosts:
+      - ${HOST_NAME}:${HOST_IP}
+      - ${HOST_NAME_FULL}:${HOST_IP}
+    ports:
+      - "8086:8086"
+    volumes:
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}:/var/lib/influxdb
+

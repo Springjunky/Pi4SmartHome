@@ -2,11 +2,15 @@
 - name: "Setup Pi"
   hosts: localhost
   vars_files:
-    - vars/configuration.yml
+    - smarthome_config.yml
   roles:
     - role: show-facts
     - role: basic-setup
-    - role: grafana
-    - role: webmin
-    - role: iobroker
     - role: postfix-with-gmail
+    - role: webmin
+    - role: portainer
+    - role: influx
+    - role: grafana
+    - role: iobroker
+    - role: dokuwiki
+

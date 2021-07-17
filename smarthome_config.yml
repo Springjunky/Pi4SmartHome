@@ -1,0 +1,44 @@
+---
+# Notification-System (Email and optional pushover)
+# Pushover: see https://pushover.net/
+# Postfix with gmail:https://www.linode.com/docs/guides/configure-postfix-to-send-mail-using-gmail-and-google-workspace-on-debian-or-ubuntu/
+
+notification:
+  recipient: "Notification@mysystem.com" #recipient of all system-Emails (eg Webmin)
+  postfix_gmail: # Configuration parameters for postfix to send email with google-account
+    email: "sample@smarthome.com" # account used to send mails from
+    password: "secret" #your password / access token from this account"
+  pushover:
+    enabled: true # Set false with no pushover account ...
+    user:  "place here your username"
+    token:  "place here your apitoken"
+
+heartbeat:
+  enabled: true # If true some statistics will be sent see Script cronStartedHeartbeat.sh
+  weekday: "0,2,4,6" # Cron Syntax 0=Sunday
+  hour: "11"  # Cron Syntax
+
+# If you want to change the default user add this user before to your system and change
+# smart_home_user
+# this user is able to execute docker-commands without root
+# its home-directroy stores all compose-files and scripts
+smart_home_user: pi
+smart_home_root:           "/home/{{ smart_home_user }}"
+smart_home_container_dir:  "{{ smart_home_root}}/SmarthomeDocker"
+smart_home_script_dir:     "{{ smart_home_root}}/SmarthomeScripts"
+smart_home_data_dir:       "{{ smart_home_root}}/SmarthomeData"
+smart_home_backup_dir:     "{{ smart_home_root}}/SmarthomeDataBackup"
+smart_home_restore_dir:    "{{ smart_home_root}}/SmarthomeDataRestore"
+
+# Future Use
+with_container:
+  iobroker: true
+  influxdb: true
+  iobroker: true
+  grafana: true
+  dokuwiki: true
+  portainer: true
+
+# Additional Packages to install
+apt_packages:  [ "htop","terminator","gparted"  ]
+

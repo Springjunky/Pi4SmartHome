@@ -1,0 +1,34 @@
+---
+
+
+- name: "Enable some raspi-config features see https://github.com/raspberrypi-ui/rc_gui/blob/master/src/rc_gui.c#L50"
+  shell: "raspi-config nonint {{ item }}"
+  loop:
+    - 'do_boot_wait 0' # Wait for network at boot
+    - 'do_ssh 0'   # enable ssh-Connections
+    - 'do_vnc 0'  # enable vnc-server
+
+- name: "Move /tmp to memory"
+  lineinfile:
+    path: /etc/fstab
+    line: "tmpfs /tmp tmpfs defaults,noatime,nosuid,size=110m 0 0"
+    state: present
+    backup: yes
+
+- name: "Global alias for ls -ltr"
+  lineinfile:
+    path: /etc/bash.bashrc
+    line: "alias ll='ls -ltr' "
+    state: present
+    backup: yes
+
+- name: "Save config.txt to config.txt_BACKUP_FROM_ANSIBLE"
+  copy:
+    src:  "/boot/config.txt"
+    dest: "/boot/config.txt_BACKUP_FROM_ANSIBLE"
+    force: no # do not copy if file exists
+
+- name: "Copy minimalistic config.txt to enable boot without connected display"
+  copy:
+    src:  "files/config.txt"
+    dest: "/boot/config.txt"

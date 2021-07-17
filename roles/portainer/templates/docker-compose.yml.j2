@@ -1,0 +1,17 @@
+version: "3"
+services:
+  portainer:
+    restart: always
+    extra_hosts:
+      - ${HOST_NAME}:${HOST_IP}
+      - ${HOST_NAME_FULL}:${HOST_IP}
+    image: portainer/portainer
+    container_name: {{ container_name }}
+    command: --admin-password-file /tmp/admin-password.txt
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}:/data
+      - ${DOCKER_VOLUMES_BASE}/{{ container_name }}/admin-password.txt:/tmp/admin-password.txt
