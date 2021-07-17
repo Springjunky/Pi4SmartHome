@@ -19,6 +19,9 @@
     - "sendMail.sh"
     - "cronStartedDockerVolumeBackup.sh"
     - "cronStartedRegularReboot.sh"
+    - "cronStartedAfterReboot.sh"
+    - "cronStartedHeartbeat.sh"
+
 
 - name: "add backupscript to cron table (at 2 am) "
   cron:
