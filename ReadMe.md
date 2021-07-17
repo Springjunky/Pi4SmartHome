@@ -35,17 +35,17 @@ or ... happy google ..
 #### Optional set hostname
 there are many ways to do that: https://pimylifeup.com/raspberry-pi-hostname/
 
-### Step 3 create a Google-Mail account to send Emails from your Pi
+### Step 2 create a Google-Mail account to send Emails from your Pi
 I recommend to create an extra Google-Mail account for this, so your origninal account 
 would not be affected in any kind of security issues.
 
 A smarthome Pi without the possibility to send Email ist not very usefull .. you need an account.
 
-### Step 4 Optional create an Pushover-Account
+### Step 3 Optional create an Pushover-Account
 Pushover is a very goog Pushup-Message-System with many clients (Android, IOS, .. ) very useful, I recommend to create an account.
 If you don't have an account set 'notification.pushover.enabled=false' and some notfications will be sent as an EMail.
 
-### Step 5 customize  setup
+### Step 4 customize  setup
 all configuration is stored in
 ```
 smarthome_config.yml
@@ -54,13 +54,13 @@ this file is not very complex, just follow the YAML-Syntax.
 
 Only the 'notification' section is relevant.
 
-### Step 3 clone & run the Ansible play
+### Step 5 clone & run the Ansible play
 ```text
 git clone .....
 sudo ./setupMyPi.sh
 ```
 this will take a while .. 
-### Step 4 reboot your system
+### Step 6 reboot your system
 
 ## Notifications of your Smarthome
 Notifications will be sent with Mail and Pushover, configured in the structure
