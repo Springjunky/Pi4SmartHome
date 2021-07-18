@@ -1,5 +1,8 @@
 ---
 
+- name: "Set User facts"
+  include: set_user_facts.yml
+
 - name: "Update and Upgrade"
   include: update_upgrade.yml
 

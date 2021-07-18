@@ -13,4 +13,5 @@
     - role: grafana
     - role: iobroker
     - role: dokuwiki
+    - role: unifi-controller
 

@@ -19,17 +19,6 @@
       # why does ansible ignores the default_release parameter ?
     - name: "Install libseccomp2.4.4 "
       shell: "apt update && apt install -t buster-backports libseccomp2"
-        
-
-    - name: "Get UID for User {{ smart_home_user }}"
-      shell: "id -u {{ smart_home_user }}"
-      register: user_id
-      changed_when: false
-
-    - name: "Get GID for User {{ smart_home_user  }}"
-      shell: "id -g {{ smart_home_user  }}"
-      register: group_id
-      changed_when: false
 
     - name: "Setup basic files and folders"
       include_role:

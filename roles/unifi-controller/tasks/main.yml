@@ -1,0 +1,27 @@
+---
+- name: "Setup UnifiController "
+  vars:
+    container_name: "UnifiController"
+  block:
+    - name: "Setup basic files and folders"
+      include_role:
+        name: basic-docker
+      vars:
+        role_container_name:    "{{ container_name }}"
+
+    - name: "Copy  compose-file to {{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
+      template:
+        src: "templates/docker-compose.yml.j2"
+        dest: "{{ smart_home_container_dir }}/{{ container_name }}/docker-compose.yml"
+
+    - name: "Start Container and wait for readiness"
+      include_role:
+        name: basic-docker-compose-up
+      vars:
+        role_compose_dir: "{{ smart_home_container_dir }}/{{ container_name }}"
+        role_health_check: "http://localhost:8080/"
+
+
+
+
+
