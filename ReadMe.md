@@ -11,6 +11,8 @@ and Docker-Containers
 - [Grafana](https://grafana.com/)
 - [Influxdb](https://www.influxdata.com/) 
 - [Portainer](https://www.portainer.io/)
+- [DokuWiki](https://www.dokuwiki.org/dokuwiki)
+- [Unifi-Controller-UI](https://www.ui.com/)
 
 _Note_:
 all Container can reach each other with the hostname of your pi (__not__ localhost).
@@ -24,6 +26,17 @@ and many convenience-Scripts
 - do a heartbeat message  
 - backup your persitence Docker Volumes and send a log for this
 - restore your Docker Volumes after system crash
+
+## TL;DR
+1. Download the [Raspberry Pi OS](https://www.raspberrypi.org/software/)
+2. Install / Move it to ssd (https://peyanski.com/how-to-boot-raspberry-pi-4-from-ssd/)
+3. Set your [hostname](https://pimylifeup.com/raspberry-pi-hostname/) / create your Smarthome-User and reboot your system
+4. Create an Google-Mail Account and (optional) a [Pushover-Account](https://pushover.net/)
+5. clone this repository
+6. edit `smarthome_config.yml` (Emails and Pushover-Api key and username)
+7. start the setup `./sudo setupMyPi.sh`
+8. reboot your system
+
 
 ## Steps to get a Smarthome-Pi 
 ### Step 1 Setup your Pi4 to boot from SSD
@@ -102,6 +115,7 @@ Every application can be reached with `http://your-hostname:port/` or, when you 
 |Grafana| `http://your-hostname:3000/` |
 |Dokuwiki| `http://your-hostname:80/` (http Port)|
 |Iobroker| `http://your-hostname:8081/` (Admin-Component) |
+|Unifi-Controller |`http://your-hostname:8080/` (setup) |   
 
 #### Scripts
 
