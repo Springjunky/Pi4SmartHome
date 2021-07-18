@@ -24,14 +24,14 @@ For Example: IOBroker is able to use inflxdb with http://<your-hostname>:8086
 and many convenience-Scripts
 - reboot your system an send a message
 - do a heartbeat message  
-- backup your persitence Docker Volumes and send a log for this
+- backup your persistence Docker Volumes and send a log for this
 - restore your Docker Volumes after system crash
 
 ## TL;DR
 1. Download the [Raspberry Pi OS](https://www.raspberrypi.org/software/)
 2. Install / Move it to ssd (https://peyanski.com/how-to-boot-raspberry-pi-4-from-ssd/)
 3. Set your [hostname](https://pimylifeup.com/raspberry-pi-hostname/) / create your Smarthome-User and reboot your system
-4. Create an Google-Mail Account and (optional) a [Pushover-Account](https://pushover.net/)
+4. Create a Google-Mail Account and (optional) a [Pushover-Account](https://pushover.net/)
 5. clone this repository
 6. edit `smarthome_config.yml` (Emails and Pushover-Api key and username)
 7. start the setup `./sudo setupMyPi.sh`
