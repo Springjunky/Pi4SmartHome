@@ -1,0 +1,16 @@
+# Ansible managed do not edit see config.txt
+
+disable_overscan=1
+hdmi_force_hotplug=1
+hdmi_force_mode=1
+hdmi_drive=2
+hdmi_group=2
+hdmi_mode=82
+dtparam=audio=on
+
+[pi4]
+max_framebuffers=2
+
+[all]
+hdmi_force_hotplug=1
+gpu_mem=152
